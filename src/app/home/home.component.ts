@@ -7,7 +7,7 @@ import { DataService } from '../data.service';
   styleUrls: ['./home.component.scss'],
   animations: [
 
-    trigger('goals', [
+    trigger('items', [
       transition('* => *', [
 
         query(':enter', style({ opacity: 0 }), {optional: true}),
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this._data.item.subscribe(res => this.items = res);
     this.itemCount = this.items.length;
-    this._data.changeGoal(this.items);
+    this._data.changeItem(this.items);
   }
 
   addItem(){
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.items.push(this.itemText);
     this.itemText = '';
     this.itemCount = this.items.length;
-    this._data.changeGoal(this.items);
+    this._data.changeItem(this.items);
     this.transactionCount++;
   }
 
@@ -61,6 +61,6 @@ export class HomeComponent implements OnInit {
     this.itemQuant--;
     this.items.splice(i,1);
     this.itemCount--;
-    this._data.changeGoal(this.items);
+    this._data.changeItem(this.items);
   }
 }
