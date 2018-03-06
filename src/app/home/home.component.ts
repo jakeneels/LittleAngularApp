@@ -13,14 +13,14 @@ import { DataService } from '../data.service';
         query(':enter', style({ opacity: 0 }), {optional: true}),
 
         query(':enter', stagger('300ms', [
-          animate('.6s ease-in', keyframes([
+          animate('.3s ease-in', keyframes([
             style({opacity: 0, transform: 'translateY(-75%)', offset: 0}),
             style({opacity: .5, transform: 'translateY(35px)',  offset: 0.3}),
             style({opacity: 1, transform: 'translateY(0)',     offset: 1.0}),
           ]))]), {optional: true})
           ,
         query(':leave', stagger('300ms', [
-          animate('.6s ease-out', keyframes([
+          animate('.3s ease-out', keyframes([
             style({opacity: 1, transform: 'translateY(0)', offset: 0}),
             style({opacity: .5, transform: 'translateY(35px)',  offset: 0.3}),
             style({opacity: 0, transform: 'translateY(-75%)',     offset: 1.0}),
@@ -30,28 +30,37 @@ import { DataService } from '../data.service';
 export class HomeComponent implements OnInit {
 
   itemCount: number;
-  btnText: string = 'add an item';
-  goalText: string = 'My first life goal';
-  goals = ['Ride a Lepricorn', 'navigate an asteroid field while being fired upon by the empire', 'go ice skating'];
+  btnText: string = 'Add Item';
+  itemText: string = 'Example Item';
+  itemQuant: number;
+  transactionCount = 0;
+  items;
 
   constructor(private _data: DataService) { }
 
   ngOnInit() {
-    this._data.goal.subscribe(res => this.goals = res);
-    this.itemCount = this.goals.length;
-    this._data.changeGoal(this.goals);
+    this._data.item.subscribe(res => this.items = res);
+    this.itemCount = this.items.length;
+    this._data.changeGoal(this.items);
   }
 
   addItem(){
-    this.goals.push(this.goalText);
-    this.goalText = '';
-    this.itemCount = this.goals.length;
-    this._data.changeGoal(this.goals);
-
+    if(this.transactionCount == 0)
+    {
+      this.items = [];
+    }
+    this.itemQuant++;
+    this.items.push(this.itemText);
+    this.itemText = '';
+    this.itemCount = this.items.length;
+    this._data.changeGoal(this.items);
+    this.transactionCount++;
   }
 
   removeItem(i) {
-    this.goals.splice(i,1);
-    this._data.changeGoal(this.goals);
+    this.itemQuant--;
+    this.items.splice(i,1);
+    this.itemCount--;
+    this._data.changeGoal(this.items);
   }
 }

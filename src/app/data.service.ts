@@ -4,13 +4,15 @@ import { BehaviorSubject} from 'rxjs/BehaviorSubject';
 @Injectable()
 export class DataService {
 
-  private goals = new BehaviorSubject<any>(['The initial goal', 'Another less pertinent goal']);
-  goal = this.goals.asObservable();
+  private items = new BehaviorSubject<any>(['First Example Item', 'Second Example Item', 'Third Example Item']);
+  item = this.items.asObservable();
+  private quants = new BehaviorSubject<any>(['1', '5', '2']);
+
  
   constructor() { }
 
-  changeGoal(goal)
+  changeGoal(item)
   {
-    this.goals.next(goal);
+    this.items.next(item);
   }
 }
